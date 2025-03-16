@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HW-3</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <load src="./partials/header.html" />
+
+    <main>
+      <section class="container">
+        <!-- form -->
+        <form class="form">
+          <input type="text" name="search" />
+          <button type="submit">Search</button>
+        </form>
+        <!-- loader -->
+        <div class="loader-center">
+          <span class="loader" style="display: none"></span>
+        </div>
+        <!--result (gallery) -->
+        <ul class="gallery"></ul>
+      </section>
+    </main>
+
+    <load src="./partials/footer.html" />
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
