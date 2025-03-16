@@ -5,9 +5,10 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 const render = data => {
   if (data && data.total > 0) {
-    showLoader(false);
+    showLoader(false); // loader
+    showLoadMoreBtn(true); // load btn
     const gallery = document.querySelector('.gallery');
-    gallery.innerHTML = data.hits
+    const markup = data.hits
       .map(
         ({
           webformatURL,
@@ -46,9 +47,12 @@ const render = data => {
                 <p>${likes}</p>
               </li>
             </ul>
-          </li>`
+          </li>
+          `
       )
       .join('');
+
+    gallery.insertAdjacentHTML('beforeend', markup);
 
     // include slider
     const lightbox = new SimpleLightbox('.gallery a', {
@@ -57,6 +61,7 @@ const render = data => {
     });
   } else {
     showLoader(false);
+    showLoadMoreBtn(false);
     iziToast.success({
       message:
         'Sorry, there are no images matching your search query. Please try again!',
@@ -81,4 +86,17 @@ const showLoader = (flag = true) => {
   }
 };
 
-export { render, showLoader };
+const showLoadMoreBtn = (flag = true) => {
+  const el = document.querySelector('.load-more-btn');
+  if (flag) {
+    // show element
+    if (el.hasAttribute('style')) {
+      el.removeAttribute('style');
+    }
+  } else {
+    if (!el.hasAttribute('style')) {
+      el.setAttribute('style', 'display:none');
+    }
+  }
+};
+export { render, showLoader, showLoadMoreBtn };

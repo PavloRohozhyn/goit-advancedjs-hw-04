@@ -1,7 +1,6 @@
-import { API_KEY, baseUrl } from './consts';
+import { API_KEY, baseUrl, pagination } from './consts';
 import axios from 'axios';
-
-const getData = search => {
+const getData = async search => {
   search = search ? search : '';
   const opt = {
     key: API_KEY,
@@ -9,8 +8,11 @@ const getData = search => {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
+    page: pagination.page,
+    per_page: pagination.per_page,
   };
-  return axios.get(baseUrl + '?' + new URLSearchParams(opt));
+  opt.page = pagination.page;
+  return await axios.get(baseUrl + '?' + new URLSearchParams(opt));
 };
 
 export default getData;
