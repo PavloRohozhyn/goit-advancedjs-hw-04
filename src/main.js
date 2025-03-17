@@ -8,7 +8,6 @@ showLoadMoreBtn(false); // remove load more btn
 
 // Listeners
 document.querySelector('section.container').addEventListener('click', event => {
-  console.log(event.target.type);
   if (event.target.type === eventDomType.search) {
     handleSubmitBtn(event);
   } else if (event.target.type === eventDomType.loadMore) {

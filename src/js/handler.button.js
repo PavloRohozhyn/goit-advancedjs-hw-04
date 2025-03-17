@@ -1,12 +1,11 @@
-import { Err } from './js/tools';
-import getData from './js/pixabay-api';
-import { render, showLoader, showLoadMoreBtn } from './js/render-functions';
-import { pagination, eventDomType } from './js/consts';
+import { Err } from './tools';
+import getData from './pixabay-api';
+import { render, showLoader, showLoadMoreBtn } from './render-functions';
+import { pagination } from './consts';
 
 // Load More Btn
 const handleClickBtn = event => {
   const search = localStorage.getItem('q-data');
-  console.log(search);
   const main = document.querySelector('span.loader');
   getData(search)
     .then(res => {
