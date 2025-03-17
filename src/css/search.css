@@ -37,3 +37,16 @@
   background: #6c8cff;
   border: none;
 }
+
+/* Load more btn */
+.load-more-btn {
+  display: block;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 8px 16px;
+  height: 40px;
+  background: #4e75ff;
+  margin: 0 auto;
+}
