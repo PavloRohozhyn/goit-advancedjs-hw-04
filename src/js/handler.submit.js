@@ -1,12 +1,18 @@
 import { Err } from './tools';
 import getData from './pixabay-api';
 import { render, showLoader, showLoadMoreBtn } from './render-functions';
-import { pagination } from './consts';
+import { refs, pagination } from './consts';
 
 // grab data from event
 const grabDataFrom = event => {
   const formData = new FormData(event.target.form); // submit
-  localStorage.setItem('q-data', formData); // store query str
+  // when we change search target - car (has more then 1 page), ssd (has only one )
+  const oldValue = localStorage.getItem('q-data');
+  const newValue = formData.get('search');
+  if (oldValue && oldValue !== newValue) {
+    pagination.page = 1;
+  }
+  localStorage.setItem('q-data', newValue); // store query str
   return Object.fromEntries(formData);
 };
 
@@ -20,25 +26,26 @@ const handleSubmitBtn = event => {
     return Err(
       'error',
       'Sorry, there are no images matching your search query. Please try again!'
-    );
+    ); // disable empty search
   } else {
     showLoader(true);
   }
-  document.querySelector('ul.gallery').innerHTML = ''; // clear content
-  const main = document.querySelector('span.loader');
+  refs.gallery.innerHTML = ''; // clear content
+  const main = refs.loader;
   getData(formProps.search)
     .then(res => {
       const total = Math.ceil(res.data.totalHits / pagination.per_page);
       if (res.status != 200) {
-        return Err('error', 'Server response fail'); // check
-      }
+        return Err('error', 'Server response fail');
+      } // <- ( code above ) check response from api
       if (pagination.page > total) {
         showLoadMoreBtn(false);
         showLoader(false);
-        return Err('error', "We're sorry, there are no more posts to load"); // load posts
-      }
+        pagination.page = 1;
+        return Err('error', "We're sorry, there are no more posts to load");
+      } // check end connection
       main.innerHtml = render(res.data); // render
-      pagination.page += 1; // next page (group)
+      pagination.page += 1; // next images group
     })
     .catch(e => {
       showLoader(false); // remove loader

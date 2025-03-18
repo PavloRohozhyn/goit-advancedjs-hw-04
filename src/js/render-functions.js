@@ -1,13 +1,17 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import { refs } from './consts';
+import { Err } from './tools';
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt', // Use the alt attribute of images for captions
+  captionDelay: 250, // Delay in milliseconds before showing the caption
+});
 
 const render = data => {
   if (data && data.total > 0) {
     showLoader(false); // loader
     showLoadMoreBtn(true); // load btn
-    const gallery = document.querySelector('.gallery');
     const markup = data.hits
       .map(
         ({
@@ -51,31 +55,21 @@ const render = data => {
           `
       )
       .join('');
-
-    gallery.insertAdjacentHTML('beforeend', markup);
-
-    // include slider
-    const lightbox = new SimpleLightbox('.gallery a', {
-      captionsData: 'alt', // Use the alt attribute of images for captions
-      captionDelay: 250, // Delay in milliseconds before showing the caption
-    });
+    refs.gallery.insertAdjacentHTML('beforeend', markup);
+    lightbox.refresh(); // refresh images
   } else {
     showLoader(false);
     showLoadMoreBtn(false);
-    iziToast.success({
-      message:
-        'Sorry, there are no images matching your search query. Please try again!',
-      position: 'topRight',
-      timeout: 5000,
-    });
+    Err(
+      'success',
+      '2Sorry, there are no images matching your search query. Please try again!'
+    );
   }
 };
 
 const showLoader = (flag = true) => {
-  const el = document.querySelector('span.loader');
-
+  const el = refs.loader;
   if (flag) {
-    // show element
     if (el.hasAttribute('style')) {
       el.removeAttribute('style');
     }
@@ -87,9 +81,8 @@ const showLoader = (flag = true) => {
 };
 
 const showLoadMoreBtn = (flag = true) => {
-  const el = document.querySelector('.load-more-btn');
+  const el = refs.loadMoreBtn;
   if (flag) {
-    // show element
     if (el.hasAttribute('style')) {
       el.removeAttribute('style');
     }

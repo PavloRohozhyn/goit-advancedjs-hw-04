@@ -11,7 +11,6 @@ const getData = async search => {
     page: pagination.page,
     per_page: pagination.per_page,
   };
-  opt.page = pagination.page;
   return await axios.get(baseUrl + '?' + new URLSearchParams(opt));
 };
 

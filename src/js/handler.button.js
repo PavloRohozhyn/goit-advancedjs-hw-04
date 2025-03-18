@@ -1,12 +1,12 @@
 import { Err } from './tools';
 import getData from './pixabay-api';
 import { render, showLoader, showLoadMoreBtn } from './render-functions';
-import { pagination } from './consts';
+import { pagination, refs } from './consts';
 
 // Load More Btn
 const handleClickBtn = event => {
   const search = localStorage.getItem('q-data');
-  const main = document.querySelector('span.loader');
+  const main = refs.loader;
   getData(search)
     .then(res => {
       const total = Math.ceil(res.data.totalHits / pagination.per_page);
@@ -15,10 +15,10 @@ const handleClickBtn = event => {
       }
       if (pagination.page > total) {
         showLoadMoreBtn(false);
-        return Err('error', "We're sorry, there are no more posts to load"); // load posts
+        pagination.page = 1;
+        return Err('error', "3We're sorry, there are no more posts to load"); // load posts
       }
       main.innerHtml = render(res.data); // render
-      pagination.page += 1; // next page (group)
     })
     .catch(e => {
       showLoader(false); // remove loader
