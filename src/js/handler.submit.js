@@ -18,11 +18,10 @@ const grabDataFrom = event => {
 
 // Search handler Btn
 const handleSubmitBtn = event => {
+  showLoadMoreBtn(false); // hide load more btn
   event.preventDefault();
   const formProps = grabDataFrom(event);
   if (!formProps.search) {
-    showLoadMoreBtn(false);
-    showLoader(false);
     return Err(
       'error',
       'Sorry, there are no images matching your search query. Please try again!'
@@ -40,17 +39,14 @@ const handleSubmitBtn = event => {
         return Err('error', 'Server response fail');
       } // <- ( code above ) check response from api
       if (pagination.page > total) {
-        showLoadMoreBtn(false);
-        showLoader(false);
         pagination.page = 1;
         return Err('error', "We're sorry, there are no more posts to load");
       } // check end connection
       main.innerHtml = render(res.data); // render
-      showLoadMoreBtn(true); // show load more btn
+      setTimeout(() => showLoadMoreBtn(true), 1000); // show load more btn)
       pagination.page += 1; // next images group
     })
     .catch(e => {
-      showLoader(false); // remove loader
       return Err('error', e.message);
     });
 };

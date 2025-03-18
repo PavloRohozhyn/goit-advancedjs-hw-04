@@ -15,14 +15,12 @@ const handleClickBtn = event => {
         return Err('error', 'Server response fail'); // check
       }
       if (pagination.page > total) {
-        showLoadMoreBtn(false);
         pagination.page = 1;
         return Err('error', "We're sorry, there are no more posts to load"); // load posts
       }
       main.innerHtml = render(res.data); // render
     })
     .catch(e => {
-      showLoader(false); // remove loader
       return Err('error', e.message);
     });
 };

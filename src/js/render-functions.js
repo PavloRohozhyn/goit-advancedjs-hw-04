@@ -57,8 +57,6 @@ const render = data => {
     refs.gallery.insertAdjacentHTML('beforeend', markup);
     lightbox.refresh(); // refresh images
   } else {
-    showLoader(false);
-    showLoadMoreBtn(false);
     Err(
       'success',
       'Sorry, there are no images matching your search query. Please try again!'
