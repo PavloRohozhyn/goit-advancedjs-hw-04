@@ -32,6 +32,7 @@ const handleSubmitBtn = event => {
   }
   refs.gallery.innerHTML = ''; // clear content
   const main = refs.loader;
+  pagination.page = 1; // all search query began from 1!
   getData(formProps.search)
     .then(res => {
       const total = Math.ceil(res.data.totalHits / pagination.per_page);
@@ -45,6 +46,7 @@ const handleSubmitBtn = event => {
         return Err('error', "We're sorry, there are no more posts to load");
       } // check end connection
       main.innerHtml = render(res.data); // render
+      showLoadMoreBtn(true); // show load more btn
       pagination.page += 1; // next images group
     })
     .catch(e => {

@@ -5,6 +5,7 @@ import { pagination, refs } from './consts';
 
 // Load More Btn
 const handleClickBtn = event => {
+  showLoader(true); // show loader
   const search = localStorage.getItem('q-data');
   const main = refs.loader;
   getData(search)
@@ -16,7 +17,7 @@ const handleClickBtn = event => {
       if (pagination.page > total) {
         showLoadMoreBtn(false);
         pagination.page = 1;
-        return Err('error', "3We're sorry, there are no more posts to load"); // load posts
+        return Err('error', "We're sorry, there are no more posts to load"); // load posts
       }
       main.innerHtml = render(res.data); // render
     })

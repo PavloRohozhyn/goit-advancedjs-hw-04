@@ -11,7 +11,6 @@ const lightbox = new SimpleLightbox('.gallery a', {
 const render = data => {
   if (data && data.total > 0) {
     showLoader(false); // loader
-    showLoadMoreBtn(true); // load btn
     const markup = data.hits
       .map(
         ({
@@ -62,7 +61,7 @@ const render = data => {
     showLoadMoreBtn(false);
     Err(
       'success',
-      '2Sorry, there are no images matching your search query. Please try again!'
+      'Sorry, there are no images matching your search query. Please try again!'
     );
   }
 };
