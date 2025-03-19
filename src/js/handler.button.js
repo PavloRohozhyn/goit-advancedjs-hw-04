@@ -19,6 +19,7 @@ const handleClickBtn = event => {
         return Err('error', "We're sorry, there are no more posts to load"); // load posts
       }
       main.innerHtml = render(res.data); // render
+      pagination.page += 1; // fix
     })
     .catch(e => {
       return Err('error', e.message);
